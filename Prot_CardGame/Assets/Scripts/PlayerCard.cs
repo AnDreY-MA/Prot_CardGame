@@ -4,11 +4,17 @@ using UnityEngine.UI;
 
 public class PlayerCard : MonoBehaviour, IPointerClickHandler
 {
-    [SerializeField] private int health;
-    [SerializeField] private GameObject placeCard;
-    [SerializeField] private GameObject cardDeck;
+    [Header("Stats")]
+    [SerializeField] private int healthPoints;
+    [SerializeField] private int magicPoints;
 
-    private Text textHealth;
+    [Header("Objects")]
+    [SerializeField] private GameObject cardDeck;
+    [SerializeField] private TurnSystem turnSystem;
+
+    [Header("Text")]
+    [SerializeField] private Text textHP;
+    [SerializeField] private Text textMP;
 
     private RectTransform posCard;
 
@@ -18,49 +24,55 @@ public class PlayerCard : MonoBehaviour, IPointerClickHandler
 
     private int countClick = 0;
 
+    public bool IsActiveDeck { get; private set; }
+
     private void Start()
     {
         animDeck = cardDeck.gameObject.GetComponent<Animator>();
         posCard = GetComponent<RectTransform>();
         startPos = posCard.anchoredPosition;
-        textHealth = GetComponentInChildren<Text>();
     }
 
     private void Update()
     {
-        textHealth.text = health.ToString();
+        ViewStats();
+        if(!turnSystem.PlayerTurn)
+            animDeck.SetBool("Active", false);
+    }
+
+    private void ViewStats()
+    {
+        textHP.text = healthPoints.ToString();
+        textMP.text = magicPoints.ToString();
         if (Input.GetKeyDown(KeyCode.Q))
-            health -= 1;
+            healthPoints -= 1;
+        if (Input.GetKeyDown(KeyCode.E))
+            magicPoints += 1;
     }
-
-    /*public void OnPointerEnter(PointerEventData eventData)
-    {
-        posCard.anchoredPosition = new Vector2(posCard.anchoredPosition.x, posCard.anchoredPosition.y + 5f);        
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        posCard.anchoredPosition = startPos;
-    }*/
-
-
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        
-        if (countClick == 0)
-        {
-            countClick += 1;
-            placeCard.GetComponent<SpriteRenderer>().color = Color.red;
-            animDeck.SetBool("Active", true);
-        }
-        else
-        {
-            countClick = 0;
-            placeCard.GetComponent<SpriteRenderer>().color = Color.white;
-            animDeck.SetBool("Active", false);
-        }
+        ActivateCard();
     }
 
-    
+    private void ActivateCard()
+    {
+        if (turnSystem.PlayerTurn)
+        {
+            if (countClick == 0)
+            {
+                countClick += 1;
+                animDeck.SetBool("Active", true);
+                IsActiveDeck = true;
+            }
+            else
+            {
+                countClick = 0;
+                animDeck.SetBool("Active", false);
+                IsActiveDeck = false;
+            }
+        }
+        else
+            return;
+    }
 }

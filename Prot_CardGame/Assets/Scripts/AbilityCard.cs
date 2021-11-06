@@ -4,25 +4,25 @@ using UnityEngine.EventSystems;
 
 public class AbilityCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    [SerializeField] private string nameCard;
-    [SerializeField] private int damage;
-
-    public Image imgCard { get; private set; }
+    [SerializeField] private Data_Card cardData;
+    [SerializeField] private HandCardManager cardManager;
 
     private RectTransform posCard;
 
+    private Text damagePoints;
+
     private Vector2 startPos;
 
-    private int countClick = 0;
-
-    public bool isActive { get; private set; }
-
+    public Image ImgCard { get; private set; }
 
     private void Start()
     {
         posCard = GetComponent<RectTransform>();
         startPos = posCard.anchoredPosition;
-        imgCard = GetComponent<Image>();
+        ImgCard = GetComponent<Image>();
+        ImgCard.sprite = cardData.spriteCard;
+        damagePoints = GetComponentInChildren<Text>();
+        damagePoints.text = cardData.damagePoint.ToString();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -37,11 +37,11 @@ public class AbilityCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (!isActive)
-            isActive = true;
-        else if (isActive)
-            isActive = false;
+        cardManager.SetActiveCard(this);     
+    }
 
-        
+    public Data_Card GetCardData()
+    {
+        return cardData;
     }
 }
