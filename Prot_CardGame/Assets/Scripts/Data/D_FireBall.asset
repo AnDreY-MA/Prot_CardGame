@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 263f5cf39ee467c43a087f7395cccb3f, type: 3}
   m_Name: D_FireBall
   m_EditorClassIdentifier: 
-  cardName: FireBall
+  cardType: Fire
   damagePoint: 5
-  spriteCard: {fileID: -260603321, guid: e6aa159b3cf5e1b4384dc82b627faae9, type: 3}
+  spriteCard: {fileID: 21300000, guid: b4e156f344cc0a540af5f1afc4fcf14a, type: 3}
