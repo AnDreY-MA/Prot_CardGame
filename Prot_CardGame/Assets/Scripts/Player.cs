@@ -9,17 +9,16 @@ public class Player : MonoBehaviour
     [SerializeField] private TextMesh _textEP;
 
     [SerializeField] GameObject _abilityCards;
+    [SerializeField] Transform _placeHand;
 
-    private Animator animDeck;
+    [SerializeField] private Transform _startPosPlayer;
 
     private TurnSystem _turnSystem;
 
-    private bool _isTurnPlayer;
-    public bool IsTurnPlayer => _isTurnPlayer;
 
+    #region Behavior
     private void Awake()
     {
-        animDeck = _abilityCards.gameObject.GetComponent<Animator>();
         _turnSystem = FindObjectOfType<TurnSystem>();
     }
 
@@ -28,10 +27,22 @@ public class Player : MonoBehaviour
         ViewStats();
         CheckTurn();
     }
+    #endregion
 
     private void CheckTurn()
     {
         _abilityCards.SetActive(_turnSystem.PlayerTurn);
+
+        if (_turnSystem.PlayerTurn)
+        {
+            transform.position = _placeHand.position;
+            transform.rotation = _placeHand.rotation;
+        }
+        else if (_turnSystem.PlayerTurn == false)
+        {
+            transform.position = _startPosPlayer.position;
+            transform.rotation = _startPosPlayer.rotation;
+        }
     }
 
     private void ViewStats()

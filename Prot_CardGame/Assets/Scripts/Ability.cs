@@ -3,6 +3,7 @@ using UnityEngine;
 public class Ability : MonoBehaviour
 {
     [SerializeField] private Data_Card _cardData;
+    [SerializeField] private Transform _place;
 
     private string _typeCard;
     private int _damagePoints;
@@ -13,15 +14,12 @@ public class Ability : MonoBehaviour
 
     private ActiveCard _systemActiveCard;
 
-    private void Awake()
+    #region Behavior
+    private void OnEnable()
     {
         _sprite = GetComponent<SpriteRenderer>();
         _systemActiveCard = FindObjectOfType<ActiveCard>();
-        _startPosition = transform.position;
-    }
-
-    private void Start()
-    {
+        _startPosition = _place.position;
         _sprite.sprite = _cardData.spriteCard;
         _typeCard = _cardData.cardType;
         _damagePoints = _cardData.damagePoint;
@@ -41,6 +39,7 @@ public class Ability : MonoBehaviour
     {
         transform.position = _startPosition;
     }
+    #endregion
 
     public Data_Card GetDataCard()
     {
