@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardType: Fire
   damagePoint: 5
+  priceForAttack: 1
   spriteCard: {fileID: 21300000, guid: b4e156f344cc0a540af5f1afc4fcf14a, type: 3}

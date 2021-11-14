@@ -3,13 +3,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ActiveCard : MonoBehaviour, IPointerClickHandler
+public class ActiveSystem : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private Image _activeCard;
     [SerializeField] private Sprite _defImage;
 
-    private string _typeCard;
     private int _damageCard;
+    public int DamageCard => _damageCard;
+
+    private int _priceAttack;
+    public int PriceAttack => _priceAttack;
 
     private Queue<Ability> _isActiveCard = new Queue<Ability>();
 
@@ -35,8 +38,8 @@ public class ActiveCard : MonoBehaviour, IPointerClickHandler
         {
             _isActiveCard.Enqueue(card);
             _activeCard.sprite = _isActiveCard.Peek().GetDataCard().spriteCard;
-            _typeCard = card.GetDataCard().cardType;
             _damageCard = card.GetDataCard().damagePoint;
+            _priceAttack = card.GetDataCard().priceForAttack;
         }
     }
 
@@ -52,7 +55,7 @@ public class ActiveCard : MonoBehaviour, IPointerClickHandler
     {
         _isActiveCard.Dequeue();
         _activeCard.sprite = _defImage;
-        _typeCard = null;
         _damageCard = 0;
+        _priceAttack = 0;
     }
 }

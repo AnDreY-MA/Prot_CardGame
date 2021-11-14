@@ -14,12 +14,14 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform _startPosPlayer;
 
     private TurnSystem _turnSystem;
+    private ActiveSystem _activeSystem;
 
 
     #region Behavior
     private void Awake()
     {
         _turnSystem = FindObjectOfType<TurnSystem>();
+        _activeSystem = FindObjectOfType<ActiveSystem>();
     }
 
     private void Update()
@@ -49,6 +51,10 @@ public class Player : MonoBehaviour
     {
         _textHP.text = _healthPoints.ToString();
         _textEP.text = _energyPoints.ToString();
+        
+        if(_turnSystem.PlayerTurn == false)
+            _energyPoints -= _activeSystem.PriceAttack;
+
         if (Input.GetKeyDown(KeyCode.Q))
             _healthPoints -= 1;
         if (Input.GetKeyDown(KeyCode.E))

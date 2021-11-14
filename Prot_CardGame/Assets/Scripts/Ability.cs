@@ -5,24 +5,19 @@ public class Ability : MonoBehaviour
     [SerializeField] private Data_Card _cardData;
     [SerializeField] private Transform _place;
 
-    private string _typeCard;
-    private int _damagePoints;
-
     private SpriteRenderer _sprite;
 
     private Vector3 _startPosition;
 
-    private ActiveCard _systemActiveCard;
+    private ActiveSystem _systemActiveCard;
 
     #region Behavior
     private void OnEnable()
     {
         _sprite = GetComponent<SpriteRenderer>();
-        _systemActiveCard = FindObjectOfType<ActiveCard>();
+        _systemActiveCard = FindObjectOfType<ActiveSystem>();
         _startPosition = _place.position;
         _sprite.sprite = _cardData.spriteCard;
-        _typeCard = _cardData.cardType;
-        _damagePoints = _cardData.damagePoint;
     }
 
     private void OnMouseEnter()
