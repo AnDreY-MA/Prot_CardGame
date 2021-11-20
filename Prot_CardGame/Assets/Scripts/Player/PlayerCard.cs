@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class PlayerCard : MonoBehaviour
 {
     [Header("Stats")]
     [SerializeField] private int _healthPoints;
