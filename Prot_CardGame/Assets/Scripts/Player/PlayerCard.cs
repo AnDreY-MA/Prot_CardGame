@@ -18,7 +18,8 @@ public class PlayerCard : MonoBehaviour
 
 
     #region Behavior
-    private void Awake()
+
+    private void Start()
     {
         _turnSystem = FindObjectOfType<TurnSystem>();
         _activeSystem = FindObjectOfType<ActiveSystem>();

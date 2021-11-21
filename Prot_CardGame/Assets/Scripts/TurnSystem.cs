@@ -10,8 +10,11 @@ public class TurnSystem : MonoBehaviour
 
     public bool TurnClick { get; private set; }
 
+    private ActiveSystem _activeSystem;
+
     private void Start()
     {
+        _activeSystem = FindObjectOfType<ActiveSystem>();
         turnText = GetComponent<Text>();
         _turnPlayer = true;
         turnText.text = "You turn";
@@ -28,6 +31,7 @@ public class TurnSystem : MonoBehaviour
         {
             turnText.text = "Enemy turn";
             _turnPlayer = false;
+            Enemy.EnemyS.SetDamageEnemy(_activeSystem.DamageCard);
         }
         else if (PlayerTurn == false)
         {
