@@ -10,10 +10,14 @@ public class TurnSystem : MonoBehaviour
 
     public bool TurnClick { get; private set; }
 
+    private Enemy _enemy;
     private ActiveSystem _activeSystem;
+    private PlayerCard _player;
 
     private void Start()
     {
+        _player = FindObjectOfType<PlayerCard>();
+        _enemy = FindObjectOfType<Enemy>();
         _activeSystem = FindObjectOfType<ActiveSystem>();
         turnText = GetComponent<Text>();
         _turnPlayer = true;
@@ -27,18 +31,32 @@ public class TurnSystem : MonoBehaviour
 
     public void SwitchTurn()
     {
-        if (PlayerTurn == true)
+        if (_turnPlayer == true)
         {
             turnText.text = "Enemy turn";
             _turnPlayer = false;
-            Enemy.EnemyS.SetDamageEnemy(_activeSystem.DamageCard);
+            CheckAttack();
         }
-        else if (PlayerTurn == false)
+        else if (_turnPlayer == false)
         {
             turnText.text = "You turn";
             _turnPlayer = true;
         }
 
         TurnClick = true;
+    }
+
+    private void CheckAttack()
+    {
+        if (_activeSystem.CardType == TypeCard.Attack)
+        {
+            _player.SetEnergyPoints(_activeSystem.PriceAttack);
+            _enemy.SetDamageEnemy(_activeSystem.DamageCard);
+        }
+        else if (_activeSystem.CardType == TypeCard.Heal)
+        {
+            _player.SetEnergyPoints(_activeSystem.PriceAttack);
+            _player.SetHeal(_activeSystem.DamageCard);
+        }
     }
 }

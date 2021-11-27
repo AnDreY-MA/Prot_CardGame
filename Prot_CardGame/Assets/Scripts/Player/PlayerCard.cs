@@ -61,4 +61,14 @@ public class PlayerCard : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
             _energyPoints -= 1;
     }
+
+    public void SetHeal(int healPoint)
+    {
+        _healthPoints += healPoint;
+    }
+
+    public void SetEnergyPoints(int energyPoints)
+    {
+        _energyPoints -= energyPoints;
+    }
 }

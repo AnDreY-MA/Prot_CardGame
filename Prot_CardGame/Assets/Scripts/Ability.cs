@@ -1,5 +1,10 @@
 using UnityEngine;
 
+public enum TypeCard
+{
+    Attack, Heal
+}
+
 public class Ability : MonoBehaviour
 {
     [SerializeField] private Data_Card _cardData;

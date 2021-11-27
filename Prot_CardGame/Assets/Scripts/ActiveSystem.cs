@@ -14,6 +14,9 @@ public class ActiveSystem : MonoBehaviour, IPointerClickHandler
     private int _priceAttack;
     public int PriceAttack => _priceAttack;
 
+    private TypeCard _typeCard;
+    public TypeCard CardType => _typeCard;
+
     private Queue<Ability> _isActiveCard = new Queue<Ability>();
 
     private TurnSystem _turnSystem;
@@ -40,6 +43,7 @@ public class ActiveSystem : MonoBehaviour, IPointerClickHandler
             _activeCard.sprite = _isActiveCard.Peek().GetDataCard().spriteCard;
             _damageCard = card.GetDataCard().damagePoint;
             _priceAttack = card.GetDataCard().priceForAttack;
+            _typeCard = card.GetDataCard().typeCard;
         }
     }
 
