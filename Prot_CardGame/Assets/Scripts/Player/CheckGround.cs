@@ -2,12 +2,17 @@ using UnityEngine;
 
 public class CheckGround : MonoBehaviour
 {
-    private void OnCollisionEnter(Collision collision)
+    public bool AbleMove { get; private set; }
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.collider.name == "CardPlace")
+        if (other.TryGetComponent<WayPoint>(out WayPoint ground))
         {
-            Debug.Log("Hit");
-        }
+            if (ground.TypeGround == TypeGround.AbleMove)
+                AbleMove = true;
+            else if(ground.TypeGround == TypeGround.UnAbleMove)
+                AbleMove = false;
 
+        }
+        print(gameObject.name + " " + AbleMove);
     }
 }

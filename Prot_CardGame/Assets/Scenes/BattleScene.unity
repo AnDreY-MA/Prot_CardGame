@@ -255,8 +255,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d9f38b56c519ac4a82500a1024d5a22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 10
+  _dataEnemy: {fileID: 11400000, guid: 58b64633ccc37b84db253d7bdf4483f7, type: 2}
   _textDamage: {fileID: 1142725200}
+  _eventEnemy:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1394843833}
+        m_TargetAssemblyTypeName: TurnSystem, Assembly-CSharp
+        m_MethodName: SwitchTurn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &64650898
 GameObject:
   m_ObjectHideFlags: 0

@@ -16,7 +16,6 @@ public class PlayerCard : MonoBehaviour
     private TurnSystem _turnSystem;
     private ActiveSystem _activeSystem;
 
-
     #region Behavior
 
     private void Start()
@@ -60,6 +59,11 @@ public class PlayerCard : MonoBehaviour
             _healthPoints -= 1;
         if (Input.GetKeyDown(KeyCode.E))
             _energyPoints -= 1;
+    }
+
+    public void SetDamage(int damage)
+    {
+        _healthPoints -= damage;
     }
 
     public void SetHeal(int healPoint)
