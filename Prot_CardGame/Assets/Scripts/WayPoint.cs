@@ -6,5 +6,4 @@ public class WayPoint : MonoBehaviour
 {
     [SerializeField] private TypeGround _typeGround;
     public TypeGround TypeGround => _typeGround;
-    
 }
