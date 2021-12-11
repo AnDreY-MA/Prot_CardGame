@@ -23,7 +23,7 @@ public class SpawnerEnemy : MonoBehaviour
 
             if (_spawnedPlace.Contains(randomPlace) == false)
             {
-                Enemy newEnemy = Instantiate(prefabEnemy);
+                Enemy newEnemy = Instantiate(prefabEnemy, randomPlace.gameObject.transform);
                 newEnemy.transform.position = randomPlace.transform.position;
                 newEnemy.transform.rotation = randomPlace.transform.rotation;
                 _spawnedPlace.Add(randomPlace);

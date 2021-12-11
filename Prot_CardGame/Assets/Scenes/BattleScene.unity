@@ -1436,6 +1436,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1089000651}
   - component: {fileID: 1089000652}
+  - component: {fileID: 1089000653}
   m_Layer: 0
   m_Name: PlaceEnemy
   m_TagString: Untagged
@@ -1480,21 +1481,18 @@ MonoBehaviour:
   _enemies:
   - {fileID: 6588312111552507363, guid: fc12ea3301c47364cb0ac10c57f30dfc, type: 3}
   - {fileID: 6588312111552507363, guid: 50ac134069450e04c94d5448ccdb7698, type: 3}
-  _switchTurnEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1394843833}
-        m_TargetAssemblyTypeName: TurnSystem, Assembly-CSharp
-        m_MethodName: SwitchTurn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+--- !u!114 &1089000653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1089000650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 975884af94222d44289dfa6bf6d31371, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1219849350
 GameObject:
   m_ObjectHideFlags: 0
@@ -2079,8 +2077,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7783a0c4475b3584d8ba4ba53b90c69a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthPoints: 10
-  _energyPoints: 10
+  _healthPoints: 30
+  _energyPoints: 40
   _textHP: {fileID: 1290060386}
   _textEP: {fileID: 1402717716}
   _abilityCards: {fileID: 64650898}

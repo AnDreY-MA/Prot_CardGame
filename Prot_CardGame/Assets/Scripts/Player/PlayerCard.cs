@@ -26,6 +26,8 @@ public class PlayerCard : MonoBehaviour
 
     private void Update()
     {
+        _healthPoints = Mathf.Clamp(_healthPoints, 0, 100);
+        _energyPoints = Mathf.Clamp(_energyPoints, 0, 100);
         ViewStats();
         CheckTurn();
     }

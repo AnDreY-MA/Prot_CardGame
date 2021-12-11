@@ -5,6 +5,9 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private DataEnemy _dataEnemy;
     [SerializeField] private TextMesh _textDamage;
+    [SerializeField] private bool _selecting;
+
+    public bool IsSelectEnemy => _selecting;
 
     private float _delayAttack = 2;
 
@@ -14,6 +17,12 @@ public class Enemy : MonoBehaviour
 
     private PlayerCard _player;
     private TurnSystem _turnSystem;
+
+    private void OnMouseDown()
+    {
+        if(_selecting == false) _selecting = true;
+        else _selecting = false;
+    }
 
     private void Start()
     {
@@ -57,6 +66,7 @@ public class Enemy : MonoBehaviour
     {
         StartCoroutine(ViewDamage(damage));
         _health -= damage;
+        _selecting = false;
     }
 
     private IEnumerator ViewDamage(int damage)

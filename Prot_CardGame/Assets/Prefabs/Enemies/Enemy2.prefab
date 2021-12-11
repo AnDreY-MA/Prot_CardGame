@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5865092672508141082}
   - component: {fileID: 6505101825661021348}
   - component: {fileID: 6588312111552507363}
+  - component: {fileID: 4537839765385184770}
   m_Layer: 0
   m_Name: Enemy2
   m_TagString: Untagged
@@ -98,28 +99,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d9f38b56c519ac4a82500a1024d5a22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _placeForEnemy: []
-  _enemies: []
-  _switchTurn:
-    m_PersistentCalls:
-      m_Calls: []
   _dataEnemy: {fileID: 11400000, guid: 304d867790fd91a46982772cf5e25d7e, type: 2}
   _textDamage: {fileID: 2256080378194196397}
-  _eventEnemy:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: TurnSystem, Assembly-CSharp
-        m_MethodName: SwitchTurn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  _selecting: 0
+--- !u!65 &4537839765385184770
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5567829690375818117}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 3, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6703220482334382628
 GameObject:
   m_ObjectHideFlags: 0
@@ -146,7 +141,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6703220482334382628}
   m_LocalRotation: {x: -0.394076, y: -0, z: -0, w: 0.9190778}
-  m_LocalPosition: {x: 0.704, y: 1.5, z: 0}
+  m_LocalPosition: {x: -0.24, y: 2.12, z: -0.651}
   m_LocalScale: {x: 0.17673361, y: 0.22257987, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
