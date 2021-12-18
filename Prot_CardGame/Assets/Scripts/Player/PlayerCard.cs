@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerCard : MonoBehaviour
@@ -7,6 +8,7 @@ public class PlayerCard : MonoBehaviour
     [SerializeField] private int _energyPoints;
     [SerializeField] private TextMesh _textHP;
     [SerializeField] private TextMesh _textEP;
+    [SerializeField] private TextMesh _takingDamage;
 
     [SerializeField] GameObject _abilityCards;
     [SerializeField] Transform _placeHand;
@@ -15,6 +17,7 @@ public class PlayerCard : MonoBehaviour
 
     private TurnSystem _turnSystem;
     private ActiveSystem _activeSystem;
+    private TimerAttack _timerAttack;
 
     #region Behavior
 
@@ -22,6 +25,7 @@ public class PlayerCard : MonoBehaviour
     {
         _turnSystem = FindObjectOfType<TurnSystem>();
         _activeSystem = FindObjectOfType<ActiveSystem>();
+        _timerAttack = FindObjectOfType<TimerAttack>();
     }
 
     private void Update()
@@ -35,14 +39,14 @@ public class PlayerCard : MonoBehaviour
 
     private void CheckTurn()
     {
-        _abilityCards.SetActive(_turnSystem.PlayerTurn);
+        _abilityCards.SetActive(_timerAttack.IsPlayerAttack);
 
-        if (_turnSystem.PlayerTurn)
+        if (_timerAttack.IsPlayerAttack == true)
         {
             transform.position = _placeHand.position;
             transform.rotation = _placeHand.rotation;
         }
-        else if (_turnSystem.PlayerTurn == false)
+        else if (_timerAttack.IsPlayerAttack == false)
         {
             transform.position = _startPosPlayer.position;
             transform.rotation = _startPosPlayer.rotation;
@@ -66,6 +70,15 @@ public class PlayerCard : MonoBehaviour
     public void SetDamage(int damage)
     {
         _healthPoints -= damage;
+        StartCoroutine(ViewDamage(damage));
+    }
+
+    private IEnumerator ViewDamage(int damage)
+    {
+        _takingDamage.gameObject.SetActive(true);
+        _takingDamage.text = $"-{damage}";
+        yield return new WaitForSeconds(0.5f);
+        _takingDamage.gameObject.SetActive(false);
     }
 
     public void SetHeal(int healPoint)

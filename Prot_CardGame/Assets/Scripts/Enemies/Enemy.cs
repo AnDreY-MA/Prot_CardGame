@@ -5,31 +5,27 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private DataEnemy _dataEnemy;
     [SerializeField] private TextMesh _textDamage;
-    [SerializeField] private bool _selecting;
-
+    
+    private bool _selecting;
     public bool IsSelectEnemy => _selecting;
 
-    private float _delayAttack = 2;
+    private bool _isAttacking;
 
     private int _health;
+    private int countAttack = 1;
 
     private SpriteRenderer _spriteEnemy;
 
     private PlayerCard _player;
-    private TurnSystem _turnSystem;
+    private TimerAttack _timerAttack;
 
-    private void OnMouseDown()
-    {
-        if(_selecting == false) _selecting = true;
-        else _selecting = false;
-    }
-
+    #region Behaviour
     private void Start()
     {
         _spriteEnemy = GetComponent<SpriteRenderer>();
         _spriteEnemy.sprite = _dataEnemy.spriteEnemy;
         _player = FindObjectOfType<PlayerCard>();
-        _turnSystem = FindObjectOfType<TurnSystem>();
+        _timerAttack = FindObjectOfType<TimerAttack>();
         _health = _dataEnemy.health;
         _textDamage.gameObject.SetActive(false);
     }
@@ -39,21 +35,21 @@ public class Enemy : MonoBehaviour
         CheckDamage();
         CheckAttack();
     }
-    
+
+    private void OnMouseDown()
+    {
+        if (_selecting == false && _timerAttack.IsPlayerAttack) _selecting = true;
+        else _selecting = false;
+    }
+    #endregion 
     public void CheckAttack()
     {
-        if (_turnSystem.PlayerTurn == false)
+        if (_timerAttack.IsPlayerAttack == false && countAttack == 1)
         {
-            _delayAttack -= Time.deltaTime;
-            float time = Mathf.Round(_delayAttack);
-
-            if(time == 0)
-            {
-                _player.SetDamage(_dataEnemy.attackDamage);
-                _turnSystem.SwitchTurn();
-                _delayAttack = 2;
-            }
+            _player.SetDamage(_dataEnemy.attackDamage);
+            countAttack = 0;
         }
+        if (_timerAttack.IsPlayerAttack == true) countAttack = 1;
     }
 
     private void CheckDamage()

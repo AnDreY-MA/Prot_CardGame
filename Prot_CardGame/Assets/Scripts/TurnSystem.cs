@@ -3,27 +3,22 @@ using UnityEngine.UI;
 
 public class TurnSystem : MonoBehaviour
 {
-    private Text turnText;
-
     private bool _turnPlayer;
     public bool PlayerTurn => _turnPlayer;
 
     public bool TurnClick { get; private set; }
 
-    private Enemy _selectEnemy;
-
     private Enemy[] _enemy;
     private ActiveSystem _activeSystem;
     private PlayerCard _player;
+    private TimerAttack _timerAttack;
 
     private void Start()
     {
         _player = FindObjectOfType<PlayerCard>();
-        
+        _timerAttack = FindObjectOfType<TimerAttack>();
         _activeSystem = FindObjectOfType<ActiveSystem>();
-        turnText = GetComponent<Text>();
         _turnPlayer = true;
-        turnText.text = "You turn";
     }
 
     private void Update()
@@ -34,16 +29,10 @@ public class TurnSystem : MonoBehaviour
 
     public void SwitchTurn()
     {
-        if (_turnPlayer == true)
+        if (_timerAttack.IsPlayerAttack)
         {
-            turnText.text = "Enemy turn";
-            _turnPlayer = false;
             CheckAttack();
-        }
-        else if (_turnPlayer == false)
-        {
-            turnText.text = "You turn";
-            _turnPlayer = true;
+            _timerAttack.SwitchTimer();
         }
 
         TurnClick = true;
