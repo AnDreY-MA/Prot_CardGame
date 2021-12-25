@@ -11,6 +11,9 @@ public class ActiveSystem : MonoBehaviour, IPointerClickHandler
     private int _damageCard;
     public int DamageCard => _damageCard;
 
+    private Enemy _targetEnemy;
+    public Enemy TargetEnemy => _targetEnemy;
+
     private int _priceAttack;
     public int PriceAttack => _priceAttack;
 
@@ -35,6 +38,14 @@ public class ActiveSystem : MonoBehaviour, IPointerClickHandler
         }
     }
 
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (_isActiveCard.Count != 0)
+        {
+            RemoveDataCard();
+        }
+    }
+
     public void SetActiveCard(Ability card)
     {
         if (_isActiveCard.Count == 0)
@@ -44,22 +55,16 @@ public class ActiveSystem : MonoBehaviour, IPointerClickHandler
             _damageCard = card.GetDataCard().damagePoint;
             _priceAttack = card.GetDataCard().priceForAttack;
             _typeCard = card.GetDataCard().typeCard;
+            _targetEnemy = card.GetEnemy();
         }
     }
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if (_isActiveCard.Count != 0)
-        {
-            RemoveDataCard();
-        }
-    }
-
-    private void RemoveDataCard()
+    public void RemoveDataCard()
     {
         _isActiveCard.Dequeue();
         _activeCard.sprite = _defImage;
         _damageCard = 0;
         _priceAttack = 0;
+        _targetEnemy = null;
     }
 }

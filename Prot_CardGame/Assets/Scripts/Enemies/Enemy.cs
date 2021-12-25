@@ -5,11 +5,6 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private DataEnemy _dataEnemy;
     [SerializeField] private TextMesh _textDamage;
-    
-    private bool _selecting;
-    public bool IsSelectEnemy => _selecting;
-
-    private bool _isAttacking;
 
     private int _health;
     private int countAttack = 1;
@@ -19,9 +14,12 @@ public class Enemy : MonoBehaviour
     private PlayerCard _player;
     private TimerAttack _timerAttack;
 
+    private Animator _animator;
+
     #region Behaviour
     private void Start()
     {
+        _animator = GetComponent<Animator>();
         _spriteEnemy = GetComponent<SpriteRenderer>();
         _spriteEnemy.sprite = _dataEnemy.spriteEnemy;
         _player = FindObjectOfType<PlayerCard>();
@@ -36,11 +34,6 @@ public class Enemy : MonoBehaviour
         CheckAttack();
     }
 
-    private void OnMouseDown()
-    {
-        if (_selecting == false && _timerAttack.IsPlayerAttack) _selecting = true;
-        else _selecting = false;
-    }
     #endregion 
     public void CheckAttack()
     {
@@ -55,14 +48,22 @@ public class Enemy : MonoBehaviour
     private void CheckDamage()
     {   
         if (_health <= 0)
-            Destroy(gameObject);
+        {
+            StartCoroutine(DestroyEnemy());
+        }    
+    }
+
+    private IEnumerator DestroyEnemy()
+    {
+        yield return new WaitForSeconds(0.5f);
+        _animator.SetBool("Destroy", true);
+        Destroy(gameObject, 2.5f);
     }
 
     public void SetDamageEnemy(int damage)
     {
         StartCoroutine(ViewDamage(damage));
         _health -= damage;
-        _selecting = false;
     }
 
     private IEnumerator ViewDamage(int damage)
