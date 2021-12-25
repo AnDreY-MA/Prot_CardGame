@@ -32,7 +32,7 @@ public class ActiveSystem : MonoBehaviour, IPointerClickHandler
 
     private void Update()
     {
-        if (_turnSystem.TurnClick && _isActiveCard.Count != 0)
+        if (_turnSystem.TurnClick)
         {
             RemoveDataCard();
         }
@@ -40,10 +40,7 @@ public class ActiveSystem : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (_isActiveCard.Count != 0)
-        {
-            RemoveDataCard();
-        }
+        RemoveDataCard();
     }
 
     public void SetActiveCard(Ability card)
@@ -61,10 +58,13 @@ public class ActiveSystem : MonoBehaviour, IPointerClickHandler
 
     public void RemoveDataCard()
     {
-        _isActiveCard.Dequeue();
-        _activeCard.sprite = _defImage;
-        _damageCard = 0;
-        _priceAttack = 0;
-        _targetEnemy = null;
+        if (_isActiveCard.Count != 0)
+        {
+            _isActiveCard.Dequeue();
+            _activeCard.sprite = _defImage;
+            _damageCard = 0;
+            _priceAttack = 0;
+            _targetEnemy = null;
+        }
     }
 }

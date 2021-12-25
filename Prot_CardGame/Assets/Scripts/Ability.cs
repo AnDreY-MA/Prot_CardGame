@@ -1,12 +1,13 @@
 using UnityEngine;
 
 public enum TypeCard { ATTACK, HEAL }
+public enum TypeAttack { NONE, CLOSE, RANGE }
 
 public class Ability : MonoBehaviour
 {
     [SerializeField] private Data_Card _cardData;
     [SerializeField] private Transform _place;
-    [SerializeField] private Transform _activedCard;
+    [SerializeField] private ActivedCard _activedCard;
 
     private bool _isActive = false;
     private bool _selectingEnemy = false;
@@ -21,11 +22,14 @@ public class Ability : MonoBehaviour
 
     #region Behavior
 
+    private void Awake()
+    {
+        _startPosition = _place.position;
+    }
+
     private void Update()
     {
-        //if(_selectingEnemy) 
         SelectEnemy();
-        //CheckSelectEnemy();
     }
 
     private void LateUpdate()
@@ -35,9 +39,9 @@ public class Ability : MonoBehaviour
     private void OnEnable()
     {
         _sprite = GetComponent<SpriteRenderer>();
-        _systemActiveCard = FindObjectOfType<ActiveSystem>();
-        _startPosition = _place.position;
+        _systemActiveCard = FindObjectOfType<ActiveSystem>();       
         _sprite.sprite = _cardData.spriteCard;
+        _activedCard = FindObjectOfType<ActivedCard>();
     }
 
     private void OnMouseEnter()
@@ -48,7 +52,7 @@ public class Ability : MonoBehaviour
     private void OnMouseDown()
     {
         //_systemActiveCard.SetActiveCard(this);
-        transform.position = _activedCard.position;
+        transform.position = _activedCard.gameObject.transform.position;
         _isActive = true;
     }
 
@@ -68,18 +72,24 @@ public class Ability : MonoBehaviour
 
     private void SelectEnemy()
     {
-        if (_isActive == true && Input.GetMouseButtonDown(0))
-        {   
+        if (_isActive == true)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
                 RaycastHit hit;
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out hit))
+                if (Physics.Raycast(ray, out hit) && hit.collider.TryGetComponent<Enemy>(out Enemy enemy))
                 {
-                    if (hit.collider.TryGetComponent<Enemy>(out Enemy enemy))
-                    {
                         _enemy = enemy;
                         CheckSelectEnemy();
-                    }
                 }
+            }
+
+            else if (Input.GetMouseButtonDown(1))
+            {
+                _isActive = false;
+                transform.position = _startPosition;
+            }   
         }
     }
 
@@ -92,4 +102,6 @@ public class Ability : MonoBehaviour
     {
         return _enemy;
     }
+
+    public void SetStartPlace(Transform place) => _place = place;
 }

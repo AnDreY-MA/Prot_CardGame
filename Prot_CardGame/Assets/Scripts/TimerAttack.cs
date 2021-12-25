@@ -6,6 +6,7 @@ public class TimerAttack : MonoBehaviour
 {
     [SerializeField] private float _maxTime = 10f;
     [SerializeField] private float _speedTime = 2f;
+    [SerializeField] private float _delayTime = 0.5f;
 
     private bool _isPlayerAttack = true;
     public bool IsPlayerAttack => _isPlayerAttack;
@@ -37,8 +38,8 @@ public class TimerAttack : MonoBehaviour
 
         if (_isPlayerAttack == false)
         {
-            yield return new WaitForSeconds(1);
-            _leftTime += Time.deltaTime * _speedTime;
+            yield return new WaitForSeconds(_delayTime);
+            _leftTime += Time.deltaTime * _speedTime * 2;
             if (_leftTime >= _maxTime) _isPlayerAttack = true;
         }
     }

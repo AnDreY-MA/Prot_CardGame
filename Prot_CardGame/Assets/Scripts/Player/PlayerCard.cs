@@ -58,7 +58,7 @@ public class PlayerCard : MonoBehaviour
         _textHP.text = _healthPoints.ToString();
         _textEP.text = _energyPoints.ToString();
         
-        if(_turnSystem.PlayerTurn == false)
+        if(_turnSystem.TurnPlayer == false)
             _energyPoints -= _activeSystem.PriceAttack;
 
         if (Input.GetKeyDown(KeyCode.Q))

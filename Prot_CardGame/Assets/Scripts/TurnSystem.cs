@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class TurnSystem : MonoBehaviour
 {
     private bool _turnPlayer;
-    public bool PlayerTurn => _turnPlayer;
+    public bool TurnPlayer => _turnPlayer;
 
     public bool TurnClick { get; private set; }
 

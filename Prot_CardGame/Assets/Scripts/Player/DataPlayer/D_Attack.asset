@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 263f5cf39ee467c43a087f7395cccb3f, type: 3}
-  m_Name: D_FireBall
+  m_Name: D_Attack
   m_EditorClassIdentifier: 
-  damagePoint: 5
-  priceForAttack: 1
+  damagePoint: 2
+  priceForAttack: 0
   typeCard: 0
-  spriteCard: {fileID: 21300000, guid: b4e156f344cc0a540af5f1afc4fcf14a, type: 3}
+  typeAttack: 1
+  spriteCard: {fileID: 21300000, guid: 915d71cea560e1f4b9ebc6fe7e5d389f, type: 3}
