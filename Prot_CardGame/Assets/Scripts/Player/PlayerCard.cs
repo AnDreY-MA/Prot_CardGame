@@ -1,30 +1,29 @@
 using System.Collections;
 using UnityEngine;
+using System;
+using UnityEngine.Events;
 
 public class PlayerCard : MonoBehaviour
 {
     [Header("Stats")]
     [SerializeField] private int _healthPoints;
     [SerializeField] private int _energyPoints;
-    [SerializeField] private TextMesh _textHP;
-    [SerializeField] private TextMesh _textEP;
-    [SerializeField] private TextMesh _takingDamage;
 
-    [SerializeField] GameObject _abilityCards;
+    [SerializeField] GameObject _handDeck;
     [SerializeField] Transform _placeHand;
 
     [SerializeField] private Transform _startPosPlayer;
 
-    private TurnSystem _turnSystem;
-    private ActiveSystem _activeSystem;
+    public event Action<int> OnHealthChange;
+    public event Action<int> OnEnergyChange;
+    public event Action<int> OnDamageChange;
+
     private TimerAttack _timerAttack;
 
     #region Behavior
 
-    private void Start()
+    private void OnEnable()
     {
-        _turnSystem = FindObjectOfType<TurnSystem>();
-        _activeSystem = FindObjectOfType<ActiveSystem>();
         _timerAttack = FindObjectOfType<TimerAttack>();
     }
 
@@ -32,14 +31,13 @@ public class PlayerCard : MonoBehaviour
     {
         _healthPoints = Mathf.Clamp(_healthPoints, 0, 100);
         _energyPoints = Mathf.Clamp(_energyPoints, 0, 100);
-        ViewStats();
         CheckTurn();
     }
     #endregion
 
     private void CheckTurn()
     {
-        _abilityCards.SetActive(_timerAttack.IsPlayerAttack);
+        _handDeck.SetActive(_timerAttack.IsPlayerAttack);
 
         if (_timerAttack.IsPlayerAttack == true)
         {
@@ -53,32 +51,14 @@ public class PlayerCard : MonoBehaviour
         }
     }
 
-    private void ViewStats()
-    {
-        _textHP.text = _healthPoints.ToString();
-        _textEP.text = _energyPoints.ToString();
-        
-        if(_turnSystem.TurnPlayer == false)
-            _energyPoints -= _activeSystem.PriceAttack;
-
-        if (Input.GetKeyDown(KeyCode.Q))
-            _healthPoints -= 1;
-        if (Input.GetKeyDown(KeyCode.E))
-            _energyPoints -= 1;
-    }
-
     public void SetDamage(int damage)
     {
         _healthPoints -= damage;
-        StartCoroutine(ViewDamage(damage));
-    }
-
-    private IEnumerator ViewDamage(int damage)
-    {
-        _takingDamage.gameObject.SetActive(true);
-        _takingDamage.text = $"-{damage}";
-        yield return new WaitForSeconds(0.5f);
-        _takingDamage.gameObject.SetActive(false);
+        
+        if (OnHealthChange != null)
+            OnHealthChange.Invoke(_healthPoints);
+        if (OnDamageChange != null)
+            OnDamageChange.Invoke(damage);
     }
 
     public void SetHeal(int healPoint)
@@ -89,5 +69,17 @@ public class PlayerCard : MonoBehaviour
     public void SetEnergyPoints(int energyPoints)
     {
         _energyPoints -= energyPoints;
+        if (OnEnergyChange != null)
+            OnEnergyChange.Invoke(_energyPoints);
+    }
+
+    public int GetHealth()
+    {
+        return _healthPoints;
+    }
+
+    public int GetEnergy()
+    {
+        return _energyPoints;
     }
 }

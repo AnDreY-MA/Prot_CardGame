@@ -850,7 +850,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxTime: 10
-  _speedTime: 0
+  _speedTime: 1
   _delayTime: 0.5
 --- !u!114 &773367835
 MonoBehaviour:
@@ -1333,7 +1333,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1089000651}
   - component: {fileID: 1089000652}
-  - component: {fileID: 1089000653}
   m_Layer: 0
   m_Name: PlaceEnemy
   m_TagString: Untagged
@@ -1378,19 +1377,6 @@ MonoBehaviour:
   _enemies:
   - {fileID: 6588312111552507363, guid: fc12ea3301c47364cb0ac10c57f30dfc, type: 3}
   - {fileID: 6588312111552507363, guid: 50ac134069450e04c94d5448ccdb7698, type: 3}
---- !u!114 &1089000653
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1089000650}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 975884af94222d44289dfa6bf6d31371, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _listEnemy: []
 --- !u!1 &1290060384
 GameObject:
   m_ObjectHideFlags: 0
@@ -1836,6 +1822,7 @@ GameObject:
   - component: {fileID: 1418490637}
   - component: {fileID: 1418490638}
   - component: {fileID: 1418490639}
+  - component: {fileID: 1418490640}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1926,12 +1913,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _healthPoints: 30
   _energyPoints: 40
-  _textHP: {fileID: 1290060386}
-  _textEP: {fileID: 1402717716}
-  _takingDamage: {fileID: 1344405350}
-  _abilityCards: {fileID: 64650898}
+  _handDeck: {fileID: 64650898}
   _placeHand: {fileID: 988704789}
   _startPosPlayer: {fileID: 254350513}
+--- !u!114 &1418490640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1418490636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3518572c8943c204098c799e1f5bb2b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _player: {fileID: 1418490639}
+  _healthText: {fileID: 1290060386}
+  _energyText: {fileID: 1402717716}
+  _takingDamage: {fileID: 1344405350}
 --- !u!1 &1419125508
 GameObject:
   m_ObjectHideFlags: 0
