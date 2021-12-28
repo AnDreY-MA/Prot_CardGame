@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.UI;
+using System;
 
 public class TurnSystem : MonoBehaviour
 {
@@ -7,6 +7,8 @@ public class TurnSystem : MonoBehaviour
     public bool TurnPlayer => _turnPlayer;
 
     public bool TurnClick { get; private set; }
+
+    public Action<Enemy> OnEnemyChange;
 
     private ActiveSystem _activeSystem;
     private PlayerCard _player;
@@ -42,6 +44,7 @@ public class TurnSystem : MonoBehaviour
         if (_activeSystem.CardType == TypeCard.ATTACK)
         {
             _player.SetEnergyPoints(_activeSystem.PriceAttack);
+            OnEnemyChange?.Invoke(_activeSystem.TargetEnemy);
             if(_activeSystem.TargetEnemy != null) _activeSystem.TargetEnemy.SetDamageEnemy(_activeSystem.DamageCard);
         }
         else if (_activeSystem.CardType == TypeCard.HEAL)

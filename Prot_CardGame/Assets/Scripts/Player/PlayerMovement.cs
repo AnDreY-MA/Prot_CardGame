@@ -2,35 +2,14 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private CheckGround _checkMoveFront;
-    [SerializeField] private CheckGround _checkMoveRight;
-    [SerializeField] private CheckGround _checkMoveBack;
-    [SerializeField] private CheckGround _checkMoveLeft;
-
     private bool _isDialog;
 
     private void Update()
     {
-        CheckInputMove();
+        if(_isDialog == false)
+            MoveToPlace();
     }
 
-    private void CheckInputMove()
-    {
-        if (_isDialog == false)
-        {
-            if (Input.GetKeyDown(KeyCode.W) && _checkMoveFront.AbleMove)
-                transform.position += Vector3.forward * 4;
-
-            if (Input.GetKeyDown(KeyCode.D) && _checkMoveRight.AbleMove)
-                transform.position += Vector3.right * 2.5f;
-
-            if (Input.GetKeyDown(KeyCode.S) && _checkMoveBack.AbleMove)
-                transform.position += Vector3.back * 4;
-
-            if (Input.GetKeyDown(KeyCode.A) && _checkMoveLeft.AbleMove)
-                transform.position += Vector3.left * 2.5f;
-        }
-    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -46,5 +25,16 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-
+    private void MoveToPlace()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out hit) && hit.collider.TryGetComponent<WayPoint>(out WayPoint place))
+            {
+                transform.position = new Vector3(place.gameObject.transform.position.x, 1.3f, place.gameObject.transform.position.z);
+            }
+        }
+    }
 }

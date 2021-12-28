@@ -1,10 +1,13 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private DataEnemy _dataEnemy;
     [SerializeField] private TextMesh _textDamage;
+
+    public Action<PlayerCard> OnAttackChange;
 
     private int _health;
     private int countAttack = 1;
@@ -17,25 +20,31 @@ public class Enemy : MonoBehaviour
     private Animator _animator;
 
     #region Behaviour
-    private void Start()
+    private void OnEnable()
     {
         _animator = GetComponent<Animator>();
         _spriteEnemy = GetComponent<SpriteRenderer>();
-        _spriteEnemy.sprite = _dataEnemy.spriteEnemy;
         _player = FindObjectOfType<PlayerCard>();
         _timerAttack = FindObjectOfType<TimerAttack>();
+        _spriteEnemy.sprite = _dataEnemy.spriteEnemy;
         _health = _dataEnemy.health;
         _textDamage.gameObject.SetActive(false);
+        _timerAttack.OnTimeChanged += Attack;
+    }
+
+    private void OnDisable()
+    {
+        _timerAttack.OnTimeChanged -= Attack;
     }
 
     private void Update()
     {
         CheckDamage();
-        CheckAttack();
+        Attack();
     }
 
     #endregion 
-    public void CheckAttack()
+    public void Attack()
     {
         if (_timerAttack.IsPlayerAttack == false && countAttack == 1)
         {

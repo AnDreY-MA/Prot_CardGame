@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public enum TypeCard { ATTACK, HEAL }
+public enum TypeCard { ATTACK, HEAL, DEFEND }
 public enum TypeAttack { NONE, CLOSE, RANGE }
 
 public class Ability : MonoBehaviour
@@ -10,7 +10,6 @@ public class Ability : MonoBehaviour
     [SerializeField] private ActivedCard _activedCard;
 
     private bool _isActive = false;
-    private bool _selectingEnemy = false;
 
     private SpriteRenderer _sprite;
 
@@ -22,20 +21,10 @@ public class Ability : MonoBehaviour
 
     #region Behavior
 
-    private void Awake()
-    {
-        _startPosition = _place.position;
-    }
+    private void Awake() => _startPosition = _place.position;
 
-    private void Update()
-    {
-        SelectEnemy();
-    }
+    private void Update() => SelectEnemy();
 
-    private void LateUpdate()
-    {
-        if(_enemy != null) Debug.Log(_enemy.gameObject.transform.position);
-    }
     private void OnEnable()
     {
         _sprite = GetComponent<SpriteRenderer>();
@@ -46,14 +35,18 @@ public class Ability : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        if(_isActive == false) transform.position = new Vector3(transform.position.x, transform.position.y + 0.3f, transform.position.z);
+        if(_isActive == false) 
+            transform.position = new Vector3(transform.position.x, transform.position.y + 0.3f, transform.position.z);
     }
 
     private void OnMouseDown()
     {
-        //_systemActiveCard.SetActiveCard(this);
-        transform.position = _activedCard.gameObject.transform.position;
-        _isActive = true;
+        if (_activedCard.ActivededCard == null)
+        {
+            transform.position = _activedCard.gameObject.transform.position;
+            _isActive = true;
+            _activedCard.SetAbilityCard(this);
+        }
     }
 
     private void OnMouseExit()
@@ -65,6 +58,7 @@ public class Ability : MonoBehaviour
     private void CheckSelectEnemy()
     {
         _systemActiveCard.SetActiveCard(this);
+        _activedCard.RemoveAbilityCard();
         _enemy = null;
         transform.position = _startPosition;
         _isActive = false;   
@@ -89,6 +83,7 @@ public class Ability : MonoBehaviour
             {
                 _isActive = false;
                 transform.position = _startPosition;
+                _activedCard.RemoveAbilityCard();
             }   
         }
     }

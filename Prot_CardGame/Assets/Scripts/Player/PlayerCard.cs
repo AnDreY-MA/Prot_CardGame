@@ -14,10 +14,15 @@ public class PlayerCard : MonoBehaviour
 
     [SerializeField] private Transform _startPosPlayer;
 
+    #region Events
     public event Action<int> OnHealthChange;
     public event Action<int> OnEnergyChange;
     public event Action<int> OnDamageChange;
+    #endregion
 
+    private bool _isAttacking = false;
+
+    private TurnSystem _turnSystem;
     private TimerAttack _timerAttack;
 
     #region Behavior
@@ -25,6 +30,13 @@ public class PlayerCard : MonoBehaviour
     private void OnEnable()
     {
         _timerAttack = FindObjectOfType<TimerAttack>();
+        _turnSystem = FindObjectOfType<TurnSystem>();
+        _turnSystem.OnEnemyChange += Attack;
+    }
+
+    private void OnDisable()
+    {
+        _turnSystem.OnEnemyChange -= Attack;
     }
 
     private void Update()
@@ -44,21 +56,34 @@ public class PlayerCard : MonoBehaviour
             transform.position = _placeHand.position;
             transform.rotation = _placeHand.rotation;
         }
-        else if (_timerAttack.IsPlayerAttack == false)
+        if (_isAttacking == false)
         {
             transform.position = _startPosPlayer.position;
             transform.rotation = _startPosPlayer.rotation;
+            _isAttacking = true;
         }
+    }
+
+    private void Attack(Enemy enemy)
+    {
+        StartCoroutine(CheckAttack(enemy));
+    }
+
+    private IEnumerator CheckAttack(Enemy enemy)
+    {
+        if (enemy == null) 
+            yield break;
+        transform.position = enemy.transform.position;
+        yield return new WaitForSeconds(1f);
+        _isAttacking = false;
     }
 
     public void SetDamage(int damage)
     {
         _healthPoints -= damage;
-        
-        if (OnHealthChange != null)
-            OnHealthChange.Invoke(_healthPoints);
-        if (OnDamageChange != null)
-            OnDamageChange.Invoke(damage);
+     
+        OnHealthChange?.Invoke(_healthPoints);
+        OnDamageChange?.Invoke(damage);
     }
 
     public void SetHeal(int healPoint)
@@ -69,8 +94,7 @@ public class PlayerCard : MonoBehaviour
     public void SetEnergyPoints(int energyPoints)
     {
         _energyPoints -= energyPoints;
-        if (OnEnergyChange != null)
-            OnEnergyChange.Invoke(_energyPoints);
+        OnEnergyChange?.Invoke(_energyPoints);
     }
 
     public int GetHealth()
