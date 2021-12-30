@@ -37,4 +37,6 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+
+    public bool SetDialogue() => _isDialog = !_isDialog;
 }
