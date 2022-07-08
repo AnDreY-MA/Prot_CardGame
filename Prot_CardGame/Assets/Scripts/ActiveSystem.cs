@@ -21,6 +21,7 @@ public class ActiveSystem : MonoBehaviour, IPointerClickHandler
     public TypeCard CardType => _typeCard;
 
     private Queue<Ability> _isActiveCard = new Queue<Ability>();
+    public Queue<Ability> IsActiveCard => _isActiveCard;
 
     private TurnSystem _turnSystem;
 

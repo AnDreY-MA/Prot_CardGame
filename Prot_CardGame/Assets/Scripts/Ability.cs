@@ -41,11 +41,16 @@ public class Ability : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (_activedCard.ActivededCard == null)
+        if (_systemActiveCard.IsActiveCard.Count == 0)
         {
-            transform.position = _activedCard.gameObject.transform.position;
-            _isActive = true;
-            _activedCard.SetAbilityCard(this);
+            if (_activedCard.ActivededCard == null && _cardData.typeCard != TypeCard.HEAL)
+            {
+                transform.position = _activedCard.gameObject.transform.position;
+                _isActive = true;
+                _activedCard.SetAbilityCard(this);
+            }
+            else if(_cardData.typeCard == TypeCard.HEAL)
+                _systemActiveCard.SetActiveCard(this);
         }
     }
 

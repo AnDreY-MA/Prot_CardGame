@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: D_Enemy2
   m_EditorClassIdentifier: 
   health: 10
-  attackDamage: 6
+  attackDamage: 3
   spriteEnemy: {fileID: 21300000, guid: 8bb4eff2c2ac44b46a505bc39d4788de, type: 3}
